@@ -73,10 +73,6 @@ docker_manifests:
       - ghcr.io/sergeyshevch/{{ .ProjectName }}:latest-armv7
 archives:
   # https://goreleaser.com/customization/archive/
-  - files:
-      # Standard Release Files
-      - LICENSE
-      - README.md
   - format: binary
     name_template: '{{ .Binary }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}'
 checksum:
