@@ -2,8 +2,8 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsergeyshevch%2Fstatuspage-exporter.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsergeyshevch%2Fstatuspage-exporter?ref=badge_shield)
 ![Build Status](https://github.com/sergeyshevch/statuspage-exporter/workflows/CI/badge.svg)
 [![License](https://img.shields.io/github/license/sergeyshevch/statuspage-exporter)](/LICENSE)
-[![Release](https://img.shields.io/github/release/sergeyshevch/statuspage-exporter.svg)](https://github.com/golangci/golangci-lint/releases/latest)
-[![Docker](https://img.shields.io/docker/pulls/sergeykons/statuspage-exporter)](https://hub.docker.com/r/golangci/golangci-lint)
+[![Release](https://img.shields.io/github/release/sergeyshevch/statuspage-exporter.svg)](https://github.com/sergeyshevch/statuspage-exporter/releases/latest)
+[![Docker](https://img.shields.io/docker/pulls/sergeykons/statuspage-exporter)](https://hub.docker.com/r/sergeykons/statuspage-exporter)
 
 Statuspage exporter exports metrics from given statuspages as prometheus metrics.
 
@@ -27,7 +27,7 @@ Docker images available in Github Registry/DockerHub in all arch (amd64, arm64, 
 | DockerHub       | [sergeykons/statuspage-exporter](https://hub.docker.com/r/sergeykons/statuspage-exporter)                                                                                                 |
 
 ```bash
-docker run -p 8080:8080 ghcr.io/sergeyshevch/statuspage-exporter --statuspage=https://www.githubstatus.com
+docker run -p 8080:8080 ghcr.io/sergeyshevch/statuspage-exporter --statuspages=https://www.githubstatus.com, https://https://jira-software.status.atlassian.com
 ```
 
 ### kubernetes
@@ -44,6 +44,8 @@ Configuration file must be named as '.statuspage-exporter.yaml' and should be pl
 
 Environment variable names are the same as configuration file keys but in upper case and with underscores instead of dots.
 
+You can read defaults from [config.go](/pkg/config/config.go)
+
 ### Configuration file example
 ```yaml
 http_port: 8080
@@ -54,6 +56,7 @@ client_timeout: 2
 # List of the targets to scrape
 statuspages:
   - https://githubstatus.com
+  - https://https://jira-software.status.atlassian.com
 ```
 
 ## Metrics Example
