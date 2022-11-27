@@ -90,7 +90,9 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    needs: build
+    needs:
+      - codeql
+      - golangci-lint
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v3
