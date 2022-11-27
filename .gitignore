@@ -1,5 +1,5 @@
 .idea/
 .statuspage-exporter.yaml
 statuspage-exporter
-
+!statuspage-exporter/
 dist/

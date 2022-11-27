@@ -1,0 +1,15 @@
+{{- if .Values.serviceMonitor.enabled}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "statuspage-exporter.fullname" . }}
+  labels:
+    {{- include "statuspage-exporter.labels" . | nindent 4 }}
+spec:
+  endpoints:
+    - port: metrics
+      interval: {{ .Values.serviceMonitor.interval }}
+      path: /metrics
+  selector:
+    {{- include "statuspage-exporter.selectorLabels" . | nindent 4 }}
+{{- end }}
