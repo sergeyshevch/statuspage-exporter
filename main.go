@@ -59,7 +59,6 @@ func startHttp(ctx context.Context, wg *sync.WaitGroup, log *zap.Logger) {
 	}
 
 	log.Info("Http server stopped")
-
 }
 
 func main() {
