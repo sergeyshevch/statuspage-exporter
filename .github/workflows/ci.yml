@@ -105,7 +105,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: go-semantic-release/action@v1
         with:
-          bin: ./semantic-release
           hooks: goreleaser
           prerelease: true
         env:
