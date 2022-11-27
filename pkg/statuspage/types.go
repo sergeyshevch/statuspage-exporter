@@ -1,5 +1,6 @@
 package statuspage
 
+// AtlassianStatusPageResponse is a response from Atlassian StatusPage API.
 type AtlassianStatusPageResponse struct {
 	Page struct {
 		Name string `json:"name"`

@@ -13,6 +13,7 @@ import (
 	"github.com/sergeyshevch/statuspage-exporter/pkg/metrics"
 )
 
+// StartFetchingLoop starts a loop that fetches status pages.
 func StartFetchingLoop(ctx context.Context, wg *sync.WaitGroup, log *zap.Logger) {
 	wg.Add(1)
 	defer wg.Done()
@@ -28,6 +29,7 @@ func StartFetchingLoop(ctx context.Context, wg *sync.WaitGroup, log *zap.Logger)
 			time.Sleep(fetchDelay)
 		case <-ctx.Done():
 			log.Info("Stopping fetching loop")
+
 			return
 		}
 	}
@@ -38,41 +40,68 @@ func fetchAllStatusPages(log *zap.Logger, client *resty.Client) {
 
 	targetUrls := config.StatusPages()
 
-	for _, targetUrl := range targetUrls {
-		go fetchStatusPage(wg, log, targetUrl, client)
+	for _, targetURL := range targetUrls {
+		go fetchStatusPage(wg, log, targetURL, client)
 	}
+
 	wg.Wait()
 }
 
-func fetchStatusPage(wg *sync.WaitGroup, log *zap.Logger, targetUrl string, client *resty.Client) {
+func fetchStatusPage(wg *sync.WaitGroup, log *zap.Logger, targetURL string, client *resty.Client) {
 	wg.Add(1)
-	log.Info("Fetching status page", zap.String("url", targetUrl))
+	log.Info("Fetching status page", zap.String("url", targetURL))
+
 	defer wg.Done()
 
-	parsedUrl, err := url.Parse(targetUrl)
+	parsedURL, err := url.Parse(targetURL)
 	if err != nil {
 		panic(err)
 	}
-	parsedUrl.Path = "/api/v2/components.json"
-	if parsedUrl.Host == "" {
-		log.Error("Invalid URL. It won't be parsed. Check that your url contains scheme", zap.String("url", targetUrl))
-		metrics.ServiceStatusFetchError.WithLabelValues(targetUrl).Inc()
+
+	parsedURL.Path = "/api/v2/components.json"
+
+	if parsedURL.Host == "" {
+		log.Error("Invalid URL. It won't be parsed. Check that your url contains scheme", zap.String("url", targetURL))
+		metrics.ServiceStatusFetchError.WithLabelValues(targetURL).Inc()
+
 		return
 	}
 
-	resp, err := client.R().SetResult(&AtlassianStatusPageResponse{}).Get(parsedUrl.String())
+	resp, err := client.R().SetResult(&AtlassianStatusPageResponse{}).Get(parsedURL.String()) //nolint:exhaustruct
 	if err != nil {
-		log.Error("Error fetching status page", zap.String("url", targetUrl), zap.Duration("duration", resp.Time()), zap.Error(err))
-		metrics.ServiceStatusFetchError.WithLabelValues(targetUrl).Inc()
+		log.Error(
+			"Error fetching status page",
+			zap.String("url", targetURL),
+			zap.Duration("duration", resp.Time()),
+			zap.Error(err),
+		)
+		metrics.ServiceStatusFetchError.WithLabelValues(targetURL).Inc()
+
 		return
 	}
 
-	result := resp.Result().(*AtlassianStatusPageResponse)
-	for _, component := range result.Components {
-		metrics.ServiceStatus.WithLabelValues(result.Page.Name, targetUrl, component.Name).Set(statusToMetricValue(component.Status))
+	result, ok := resp.Result().(*AtlassianStatusPageResponse)
+	if !ok {
+		log.Error(
+			"Error parsing status page response",
+			zap.String("url", targetURL),
+			zap.Duration("duration", resp.Time()),
+			zap.Error(err),
+		)
+		metrics.ServiceStatusFetchError.WithLabelValues(targetURL).Inc()
+
+		return
 	}
 
-	log.Info("Fetched status page", zap.Duration("duration", resp.Time()), zap.String("url", targetUrl))
+	for _, component := range result.Components {
+		metrics.ServiceStatus.WithLabelValues(
+			result.Page.Name,
+			targetURL,
+			component.Name,
+		).Set(statusToMetricValue(component.Status))
+	}
+
+	log.Info("Fetched status page", zap.Duration("duration", resp.Time()), zap.String("url", targetURL))
 }
 
 func statusToMetricValue(status string) float64 {
@@ -80,11 +109,11 @@ func statusToMetricValue(status string) float64 {
 	case "operational":
 		return 1
 	case "degraded_performance":
-		return 2
+		return 2 //nolint:gomnd
 	case "partial_outage":
-		return 3
+		return 3 //nolint:gomnd
 	case "major_outage":
-		return 4
+		return 4 //nolint:gomnd
 	default:
 		return 0
 	}

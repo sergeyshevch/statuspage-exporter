@@ -1,0 +1,45 @@
+run:
+  concurrency: 5
+  skip-dirs:
+    - vendor
+  tests: true
+  go: '1.19'
+
+issues:
+  exclude-use-default: false
+  exclude:
+    - ST1000
+    - package-comments
+  exclude-rules:
+    - path: '(.+)_test\.go'
+      linters:
+        - funlen
+        - paralleltest
+
+linters-settings:
+  varnamelen:
+    ignore-decls:
+      - wg *sync.WaitGroup
+
+linters:
+  enable-all: true
+  disable:
+    # Not suitable for this package
+    - wrapcheck
+    - gci
+    - gochecknoglobals
+    - gomoddirectives
+    - goerr113
+
+    # Deprecated
+    - scopelint
+    - deadcode
+    - maligned
+    - nosnakecase
+    - golint
+    - varcheck
+    - interfacer
+    - exhaustivestruct
+    - ifshort
+    - structcheck
+

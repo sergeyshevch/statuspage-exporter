@@ -26,7 +26,7 @@ const (
 	readHeaderTimeout = 5 * time.Second
 )
 
-func startHttp(ctx context.Context, wg *sync.WaitGroup, log *zap.Logger) {
+func startHTTP(ctx context.Context, wg *sync.WaitGroup, log *zap.Logger) {
 	wg.Add(1)
 	defer wg.Done()
 
@@ -75,7 +75,7 @@ func main() {
 	prometheus.MustRegister(metrics.ServiceStatusFetchError)
 
 	go statuspage.StartFetchingLoop(ctx, wg, log)
-	go startHttp(ctx, wg, log)
+	go startHTTP(ctx, wg, log)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
