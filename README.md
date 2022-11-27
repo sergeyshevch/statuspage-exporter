@@ -19,6 +19,13 @@ Statuspage exporter exports metrics from given statuspages as prometheus metrics
 You can run the exporter with docker, kubernetes, or just as a binary.
 
 ### Docker
+Docker images available in Github Registry/DockerHub in all arch (amd64, arm64, arm/v7) for linux. Please be careful with DockerHun pull limits.
+
+| Registry        | Repository                                                                                                                         |
+|-----------------|------------------------------------------------------------------------------------------------------------------------------------|
+| Github Registry | [ghcr.io/sergeyshevch/statuspage-exporter](https://github.com/sergeyshevch/statuspage-exporter/pkgs/container/statuspage-exporter) |
+| DockerHub       | [sergeykons/statuspage-exporter](https://hub.docker.com/r/sergeykons/statuspage-exporter)                                                                                                 |
+
 ```bash
 docker run -p 8080:8080 ghcr.io/sergeyshevch/statuspage-exporter --statuspage=https://www.githubstatus.com
 ```

@@ -27,6 +27,8 @@ dockers:
     image_templates:
       - "ghcr.io/sergeyshevch/{{ .ProjectName }}:{{ .Version }}-amd64"
       - "ghcr.io/sergeyshevch/{{ .ProjectName }}:latest-amd64"
+      - "sergeykons/{{ .ProjectName }}:{{ .Version }}-amd64"
+      - "sergeykons/{{ .ProjectName }}:latest-amd64"
     build_flag_templates:
       - "--platform=linux/amd64"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -39,6 +41,8 @@ dockers:
     image_templates:
       - "ghcr.io/sergeyshevch/{{ .ProjectName }}:{{ .Version }}-arm64v8"
       - "ghcr.io/sergeyshevch/{{ .ProjectName }}:latest-arm64v8"
+      - "sergeykons/{{ .ProjectName }}:{{ .Version }}-arm64v8"
+      - "sergeykons/{{ .ProjectName }}:latest-arm64v8"
     build_flag_templates:
       - "--platform=linux/arm64/v8"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -52,6 +56,8 @@ dockers:
     image_templates:
       - "ghcr.io/sergeyshevch/{{ .ProjectName }}:{{ .Version }}-armv7"
       - "ghcr.io/sergeyshevch/{{ .ProjectName }}:latest-armv7"
+      - "sergeykons/{{ .ProjectName }}:{{ .Version }}-armv7"
+      - "sergeykons/{{ .ProjectName }}:latest-armv7"
     build_flag_templates:
       - "--platform=linux/arm/v7"
       - "--label=org.opencontainers.image.created={{.Date}}"
@@ -71,6 +77,17 @@ docker_manifests:
       - ghcr.io/sergeyshevch/{{ .ProjectName }}:latest-amd64
       - ghcr.io/sergeyshevch/{{ .ProjectName }}:latest-arm64v8
       - ghcr.io/sergeyshevch/{{ .ProjectName }}:latest-armv7
+  - name_template: sergeykons/{{ .ProjectName }}:{{ .Version }}
+    image_templates:
+      - sergeykons/{{ .ProjectName }}:{{ .Version }}-amd64
+      - sergeykons/{{ .ProjectName }}:{{ .Version }}-arm64v8
+      - sergeykons/{{ .ProjectName }}:{{ .Version }}-armv7
+  - name_template: sergeykons/{{ .ProjectName }}:latest
+    image_templates:
+      - sergeykons/{{ .ProjectName }}:latest-amd64
+      - sergeykons/{{ .ProjectName }}:latest-arm64v8
+      - sergeykons/{{ .ProjectName }}:latest-armv7
+
 archives:
   # https://goreleaser.com/customization/archive/
   - format: binary
