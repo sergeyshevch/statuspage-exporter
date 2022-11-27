@@ -1,3 +1,5 @@
 .idea/
 .statuspage-exporter.yaml
 statuspage-exporter
+
+dist/
