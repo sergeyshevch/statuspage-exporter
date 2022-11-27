@@ -14,6 +14,41 @@ Statuspage exporter exports metrics from given statuspages as prometheus metrics
 - [GitHub](https://www.githubstatus.com)
 - [Atlassian (Jira/Confluence/etc)](https://status.atlassian.com/)
 
+## Running exporter
+
+You can run the exporter with docker, kubernetes, or just as a binary.
+
+### Docker
+```bash
+docker run -p 8080:8080 ghcr.io/sergeyshevch/statuspage-exporter --statuspage=https://www.githubstatus.com
+```
+
+### kubernetes
+TODO: Provide helm chart
+
+### Binary
+TODO: Provide docs for binary running
+
+## Configuration
+
+You can provide configuration using configuration file or environment variables.
+
+Configuration file must be named as '.statuspage-exporter.yaml' and should be placed in the home directory or same directory as the binary.
+
+Environment variable names are the same as configuration file keys but in upper case and with underscores instead of dots.
+
+### Configuration file example
+```yaml
+http_port: 8080
+# Delay between requests to the statuspages
+fetch_delay: 5
+# Timeout for the http client
+client_timeout: 2
+# List of the targets to scrape
+statuspages:
+  - https://githubstatus.com
+```
+
 ## Metrics Example
 ```
 # HELP service_status Status of a service component, values 0 (operational) to 4 (major_outage)
