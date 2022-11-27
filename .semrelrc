@@ -13,7 +13,7 @@
       }
     },
     "provider": {
-      "name": "github",
+      "name": "github"
     },
     "files-updater": {
       "names": ["helm"]
