@@ -2,6 +2,11 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsergeyshevch%2Fstatuspage-exporter.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsergeyshevch%2Fstatuspage-exporter?ref=badge_shield)
 
 
+![Build Status](https://github.com/sergeyshevch/statuspage-exporter/workflows/CI/badge.svg)
+[![License](https://img.shields.io/github/license/sergeyshevch/statuspage-exporter)](/LICENSE)
+[![Release](https://img.shields.io/github/release/sergeyshevch/statuspage-exporter.svg)](https://github.com/golangci/golangci-lint/releases/latest)
+[![Docker](https://img.shields.io/docker/pulls/sergeyshevch/statuspage-exporter)](https://hub.docker.com/r/golangci/golangci-lint)
+
 Statuspage exporter exports metrics from given statuspages as prometheus metrics.
 
 ## Supported statuspage engines:
