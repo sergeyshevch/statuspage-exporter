@@ -1,4 +1,6 @@
 # Statuspage Exporter
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsergeyshevch%2Fstatuspage-exporter.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsergeyshevch%2Fstatuspage-exporter?ref=badge_shield)
+
 
 Statuspage exporter exports metrics from given statuspages as prometheus metrics.
 
@@ -31,3 +33,7 @@ statuspage_exporter_build_info{branch="",goversion="go1.19.2",revision="",versio
 
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsergeyshevch%2Fstatuspage-exporter.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsergeyshevch%2Fstatuspage-exporter?ref=badge_large)
