@@ -77,9 +77,11 @@ archives:
       # Standard Release Files
       - LICENSE
       - README.md
+  - format: binary
+    name_template: '{{ .Binary }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}'
 checksum:
   # https://goreleaser.com/customization/checksum/
-  name_template: 'checksums.txt'
+  name_template: '{{ .ProjectName }}_v{{ .Version }}_checksums.txt'
 snapshot:
   # https://goreleaser.com/customization/snapshots/
   name_template: "{{ incpatch .Version }}-SNAPSHOT"
