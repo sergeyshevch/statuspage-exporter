@@ -45,5 +45,3 @@ dockers:
       - "--label=org.opencontainers.image.version={{.Version}}"
       - "--label=org.opencontainers.image.license=MIT"
       - "--label=org.opencontainers.image.source=https://github.com/sergeyshevch/statuspage-exporter.git"
-    extra_files:
-      - ./docker/entrypoint.sh
