@@ -22,7 +22,7 @@ on:
 
 jobs:
   codeql:
-    name: Analyze
+    name: CodeQL
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -74,7 +74,7 @@ jobs:
           category: "/language:${{matrix.language}}"
 
   golangci-lint:
-    name: Analyze
+    name: GolangCI Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-go@v3
