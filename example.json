@@ -1,0 +1,380 @@
+{
+  "page": {
+    "id": "kctbh9vrtdwd",
+    "name": "GitHub",
+    "url": "https://www.githubstatus.com",
+    "time_zone": "Etc/UTC",
+    "updated_at": "2022-11-25T15:50:05.892Z"
+  },
+  "components": [
+    {
+      "id": "8l4ygp009s5s",
+      "name": "Git Operations",
+      "status": "operational",
+      "created_at": "2017-01-31T20:05:05.370Z",
+      "updated_at": "2022-11-09T01:54:03.540Z",
+      "position": 1,
+      "description": "Performance of git clones, pulls, pushes, and associated operations",
+      "showcase": false,
+      "start_date": null,
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "brv1bkgrwx7q",
+      "name": "API Requests",
+      "status": "operational",
+      "created_at": "2017-01-31T20:01:46.621Z",
+      "updated_at": "2022-11-09T01:54:01.951Z",
+      "position": 2,
+      "description": "Requests for GitHub APIs",
+      "showcase": false,
+      "start_date": null,
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "4230lsnqdsld",
+      "name": "Webhooks",
+      "status": "operational",
+      "created_at": "2019-11-13T18:00:24.256Z",
+      "updated_at": "2022-11-09T01:54:07.258Z",
+      "position": 3,
+      "description": "Real time HTTP callbacks of user-generated and system events",
+      "showcase": false,
+      "start_date": null,
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "0l2p9nhqnxpd",
+      "name": "Visit www.githubstatus.com for more information",
+      "status": "operational",
+      "created_at": "2018-12-05T19:39:40.838Z",
+      "updated_at": "2022-09-07T00:08:33.519Z",
+      "position": 4,
+      "description": null,
+      "showcase": false,
+      "start_date": null,
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "kr09ddfgbfsf",
+      "name": "Issues",
+      "status": "operational",
+      "created_at": "2017-01-31T20:01:46.638Z",
+      "updated_at": "2022-11-09T01:54:04.113Z",
+      "position": 5,
+      "description": "Requests for Issues on GitHub.com",
+      "showcase": false,
+      "start_date": null,
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "hhtssxt0f5v2",
+      "name": "Pull Requests",
+      "status": "operational",
+      "created_at": "2020-09-02T15:39:06.329Z",
+      "updated_at": "2022-11-09T01:54:06.027Z",
+      "position": 6,
+      "description": "Requests for Pull Requests on GitHub.com",
+      "showcase": false,
+      "start_date": null,
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "br0l2tvcx85d",
+      "name": "Actions",
+      "status": "operational",
+      "created_at": "2019-11-13T18:02:19.432Z",
+      "updated_at": "2022-11-18T04:11:58.048Z",
+      "position": 7,
+      "description": "Workflows, Compute and Orchestration for GitHub Actions",
+      "showcase": false,
+      "start_date": null,
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "st3j38cctv9l",
+      "name": "Packages",
+      "status": "partial_outage",
+      "created_at": "2019-11-13T18:02:40.064Z",
+      "updated_at": "2022-11-25T15:50:05.888Z",
+      "position": 8,
+      "description": "API requests and webhook delivery for GitHub Packages",
+      "showcase": false,
+      "start_date": null,
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "vg70hn9s2tyj",
+      "name": "Pages",
+      "status": "operational",
+      "created_at": "2017-01-31T20:04:33.923Z",
+      "updated_at": "2022-11-25T15:40:47.264Z",
+      "position": 9,
+      "description": "Frontend application and API servers for Pages builds",
+      "showcase": false,
+      "start_date": null,
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "h2ftsgbw7kmk",
+      "name": "Codespaces",
+      "status": "operational",
+      "created_at": "2021-08-11T16:02:09.505Z",
+      "updated_at": "2022-11-20T19:55:55.204Z",
+      "position": 10,
+      "description": "Orchestration and Compute for GitHub Codespaces",
+      "showcase": false,
+      "start_date": "2021-08-11",
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    },
+    {
+      "id": "pjmpxvq2cmr2",
+      "name": "Copilot",
+      "status": "operational",
+      "created_at": "2022-06-21T16:04:33.017Z",
+      "updated_at": "2022-11-25T06:24:38.439Z",
+      "position": 11,
+      "description": null,
+      "showcase": false,
+      "start_date": "2022-06-21",
+      "group_id": null,
+      "page_id": "kctbh9vrtdwd",
+      "group": false,
+      "only_show_if_degraded": false
+    }
+  ],
+  "incidents": [
+    {
+      "id": "ljwdk6qml8z8",
+      "name": "Incident with Packages and Pages",
+      "status": "investigating",
+      "created_at": "2022-11-25T14:39:09.548Z",
+      "updated_at": "2022-11-25T15:50:04.970Z",
+      "monitoring_at": null,
+      "resolved_at": null,
+      "impact": "major",
+      "shortlink": "https://stspg.io/33vh8r7z43kh",
+      "started_at": "2022-11-25T14:39:09.542Z",
+      "page_id": "kctbh9vrtdwd",
+      "incident_updates": [
+        {
+          "id": "k0x2s8g2plxb",
+          "status": "investigating",
+          "body": "Packages is now experiencing degraded performance. We are still investigating and will provide an update when we have one.",
+          "incident_id": "ljwdk6qml8z8",
+          "created_at": "2022-11-25T15:50:04.967Z",
+          "updated_at": "2022-11-25T15:50:04.967Z",
+          "display_at": "2022-11-25T15:50:04.967Z",
+          "affected_components": [
+            {
+              "code": "vg70hn9s2tyj",
+              "name": "Pages",
+              "old_status": "operational",
+              "new_status": "operational"
+            },
+            {
+              "code": "st3j38cctv9l",
+              "name": "Packages",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "8fnd7wsp5v36",
+          "status": "investigating",
+          "body": "Following mitigations being put in place, we are seeing recovery for GitHub Packages, GitHub Pages and ghcr.io. We are monitoring this recovery and will continue to update.",
+          "incident_id": "ljwdk6qml8z8",
+          "created_at": "2022-11-25T15:45:13.950Z",
+          "updated_at": "2022-11-25T15:45:13.950Z",
+          "display_at": "2022-11-25T15:45:13.950Z",
+          "affected_components": null,
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "8bccy289xckg",
+          "status": "investigating",
+          "body": "Pages is operating normally.",
+          "incident_id": "ljwdk6qml8z8",
+          "created_at": "2022-11-25T15:40:46.461Z",
+          "updated_at": "2022-11-25T15:40:46.461Z",
+          "display_at": "2022-11-25T15:40:46.461Z",
+          "affected_components": [
+            {
+              "code": "vg70hn9s2tyj",
+              "name": "Pages",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            },
+            {
+              "code": "st3j38cctv9l",
+              "name": "Packages",
+              "old_status": "major_outage",
+              "new_status": "major_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "3956pfljsss1",
+          "status": "investigating",
+          "body": "We are investigating issues with Packages. GitHub Pages and ghcr.io are also impacted. We will continue to update users as we progress towards mitigation.",
+          "incident_id": "ljwdk6qml8z8",
+          "created_at": "2022-11-25T15:11:41.808Z",
+          "updated_at": "2022-11-25T15:11:41.808Z",
+          "display_at": "2022-11-25T15:11:41.808Z",
+          "affected_components": null,
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "5r7154l5bkg7",
+          "status": "investigating",
+          "body": "Packages is now experiencing degraded availability. We are continuing to investigate.",
+          "incident_id": "ljwdk6qml8z8",
+          "created_at": "2022-11-25T15:06:53.071Z",
+          "updated_at": "2022-11-25T15:06:53.071Z",
+          "display_at": "2022-11-25T15:06:53.071Z",
+          "affected_components": [
+            {
+              "code": "vg70hn9s2tyj",
+              "name": "Pages",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            },
+            {
+              "code": "st3j38cctv9l",
+              "name": "Packages",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "y0x9rc7hvp1s",
+          "status": "investigating",
+          "body": "Pages is experiencing degraded performance. We are continuing to investigate.",
+          "incident_id": "ljwdk6qml8z8",
+          "created_at": "2022-11-25T14:39:29.123Z",
+          "updated_at": "2022-11-25T14:39:29.123Z",
+          "display_at": "2022-11-25T14:39:29.123Z",
+          "affected_components": [
+            {
+              "code": "vg70hn9s2tyj",
+              "name": "Pages",
+              "old_status": "operational",
+              "new_status": "operational"
+            },
+            {
+              "code": "st3j38cctv9l",
+              "name": "Packages",
+              "old_status": "partial_outage",
+              "new_status": "partial_outage"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        },
+        {
+          "id": "n1dr3fb22655",
+          "status": "investigating",
+          "body": "We are investigating reports of degraded performance for Packages.",
+          "incident_id": "ljwdk6qml8z8",
+          "created_at": "2022-11-25T14:39:09.577Z",
+          "updated_at": "2022-11-25T14:39:09.577Z",
+          "display_at": "2022-11-25T14:39:09.577Z",
+          "affected_components": [
+            {
+              "code": "st3j38cctv9l",
+              "name": "Packages",
+              "old_status": "operational",
+              "new_status": "operational"
+            }
+          ],
+          "deliver_notifications": true,
+          "custom_tweet": null,
+          "tweet_id": null
+        }
+      ],
+      "components": [
+        {
+          "id": "st3j38cctv9l",
+          "name": "Packages",
+          "status": "partial_outage",
+          "created_at": "2019-11-13T18:02:40.064Z",
+          "updated_at": "2022-11-25T15:50:05.888Z",
+          "position": 8,
+          "description": "API requests and webhook delivery for GitHub Packages",
+          "showcase": false,
+          "start_date": null,
+          "group_id": null,
+          "page_id": "kctbh9vrtdwd",
+          "group": false,
+          "only_show_if_degraded": false
+        },
+        {
+          "id": "vg70hn9s2tyj",
+          "name": "Pages",
+          "status": "operational",
+          "created_at": "2017-01-31T20:04:33.923Z",
+          "updated_at": "2022-11-25T15:40:47.264Z",
+          "position": 9,
+          "description": "Frontend application and API servers for Pages builds",
+          "showcase": false,
+          "start_date": null,
+          "group_id": null,
+          "page_id": "kctbh9vrtdwd",
+          "group": false,
+          "only_show_if_degraded": false
+        }
+      ]
+    }
+  ],
+  "scheduled_maintenances": [],
+  "status": {
+    "indicator": "minor",
+    "description": "Minor Service Outage"
+  }
+}
