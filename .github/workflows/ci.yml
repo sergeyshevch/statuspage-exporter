@@ -17,7 +17,7 @@ on:
 
 jobs:
   lint:
-    uses: ./.github/workflow/lint
+    uses: ./.github/workflows/lint
 
   release:
     if: github.repository == 'sergeyshevch/statuspage-exporter'
