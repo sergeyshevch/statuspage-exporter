@@ -5,9 +5,9 @@ import "github.com/prometheus/client_golang/prometheus"
 // ServiceStatusFetchError is a counter that counts errors while fetching service status.
 var ServiceStatusFetchError = prometheus.NewCounterVec(
 	prometheus.CounterOpts{
-		Name:        "fetch_error_total",
+		Name:        "status_fetch_error_total",
 		Namespace:   "service",
-		Subsystem:   "status",
+		Subsystem:   "",
 		Help:        "Number of errors encountered while fetching service status",
 		ConstLabels: map[string]string{},
 	},
@@ -17,9 +17,9 @@ var ServiceStatusFetchError = prometheus.NewCounterVec(
 // ServiceStatus is a gauge that represents service status.
 var ServiceStatus = prometheus.NewGaugeVec(
 	prometheus.GaugeOpts{
-		Name:        "",
+		Name:        "status",
 		Namespace:   "service",
-		Subsystem:   "status",
+		Subsystem:   "",
 		Help:        "Status of a service component, values 0 (operational) to 4 (major_outage)",
 		ConstLabels: map[string]string{},
 	},
