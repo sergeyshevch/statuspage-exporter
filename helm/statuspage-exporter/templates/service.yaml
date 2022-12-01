@@ -5,9 +5,9 @@ metadata:
   labels:
     {{- include "statuspage-exporter.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.httpPort }}
       targetPort: metrics
       protocol: TCP
       name: metrics

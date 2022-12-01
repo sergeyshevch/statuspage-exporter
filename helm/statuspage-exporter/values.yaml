@@ -3,6 +3,12 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 
+httpPort: 8080
+fetchDelay: 5
+clientTimeout: 2
+statuspages: []
+#  - https://www.githubstatus.com
+
 image:
   repository: ghcr.io/sergeyshevch/statuspage-exporter
   pullPolicy: IfNotPresent
@@ -34,10 +40,6 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 8080
 
 serviceMonitor:
   enabled: true
