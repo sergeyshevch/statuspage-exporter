@@ -34,7 +34,12 @@ docker run -p 8080:8080 ghcr.io/sergeyshevch/statuspage-exporter --statuspages=h
 TODO: Provide helm chart
 
 ### Binary
-TODO: Provide docs for binary running
+Please select latest available release from [releases page](https://github.com/sergeyshevch/statuspage-exporter/releases)
+```
+wget https://github.com/sergeyshevch/statuspage-exporter/releases/download/v1.2.0/statuspage-exporter_v1.2.0_darwin_amd64 -O statuspage-exporter
+sudo chmod +x statuspage-exporter
+./statuspage-exporter
+```
 
 ## Configuration
 
@@ -56,7 +61,7 @@ client_timeout: 2
 # List of the targets to scrape
 statuspages:
   - https://githubstatus.com
-  - https://https://jira-software.status.atlassian.com
+  - https://jira-software.status.atlassian.com
 ```
 
 ## Metrics Example
