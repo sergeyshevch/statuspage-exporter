@@ -30,8 +30,12 @@ Docker images available in Github Registry/DockerHub in all arch (amd64, arm64, 
 docker run -p 8080:8080 ghcr.io/sergeyshevch/statuspage-exporter --statuspages=https://www.githubstatus.com, https://https://jira-software.status.atlassian.com
 ```
 
-### kubernetes
-TODO: Provide helm chart
+### Helm
+
+```shell
+helm add sergeyshevch sergeyshevch.github.io/charts
+helm install sergeyshevch/statuspage-exporter --namespace statuspage-exporter --create-namespace --set statuspages[0]=https://www.githubstatus.com
+```
 
 ### Binary
 Please select latest available release from [releases page](https://github.com/sergeyshevch/statuspage-exporter/releases)
