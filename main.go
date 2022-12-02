@@ -18,7 +18,8 @@ import (
 
 	"github.com/sergeyshevch/statuspage-exporter/pkg/config"
 	"github.com/sergeyshevch/statuspage-exporter/pkg/metrics"
-	"github.com/sergeyshevch/statuspage-exporter/pkg/statuspage"
+	"github.com/sergeyshevch/statuspage-exporter/pkg/statusio"
+	"github.com/sergeyshevch/statuspage-exporter/pkg/statuspageio"
 )
 
 const (
@@ -74,7 +75,8 @@ func main() {
 	prometheus.MustRegister(metrics.ServiceStatus)
 	prometheus.MustRegister(metrics.ServiceStatusFetchError)
 
-	go statuspage.StartFetchingLoop(ctx, wg, log)
+	go statuspageio.StartFetchingLoop(ctx, wg, log)
+	go statusio.StartFetchingLoop(ctx, wg, log)
 	go startHTTP(ctx, wg, log)
 
 	quit := make(chan os.Signal, 1)

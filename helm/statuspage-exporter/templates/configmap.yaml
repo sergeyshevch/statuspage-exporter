@@ -6,8 +6,11 @@ metadata:
     {{- include "statuspage-exporter.labels" . | nindent 4 }}
 data:
   HTTP_PORT: {{ .Values.httpPort | quote }}
-  {{- if .Values.statuspages }}
-  STATUSPAGES: {{ .Values.statuspages | join ", " | quote }}
+  {{- if .Values.statuspageio_pages }}
+  STATUSPAGEIO_PAGES: {{ .Values.statuspageio_pages | join ", " | quote }}
+  {{- end }}
+  {{- if .Values.statusio_pages }}
+  STATUSIO_PAGES: {{ .Values.statusio_pages | join ", " | quote }}
   {{- end }}
   FETCH_DELAY: {{ .Values.fetchDelay | quote }}
   CLIENT_TIMEOUT: {{ .Values.clientTimeout | quote }}

@@ -2,4 +2,4 @@ apiVersion: v2
 name: statuspage-exporter
 description: Statuspage exporter exports metrics from given statuspages as prometheus metrics.
 type: application
-version: 1.2.0
+version: 1.3.0

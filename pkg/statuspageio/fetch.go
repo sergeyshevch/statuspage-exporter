@@ -1,4 +1,4 @@
-package statuspage
+package statuspageio
 
 import (
 	"context"
@@ -11,6 +11,7 @@ import (
 
 	"github.com/sergeyshevch/statuspage-exporter/pkg/config"
 	"github.com/sergeyshevch/statuspage-exporter/pkg/metrics"
+	"github.com/sergeyshevch/statuspage-exporter/pkg/utils"
 )
 
 // StartFetchingLoop starts a loop that fetches status pages.
@@ -38,7 +39,7 @@ func StartFetchingLoop(ctx context.Context, wg *sync.WaitGroup, log *zap.Logger)
 func fetchAllStatusPages(log *zap.Logger, client *resty.Client) {
 	wg := &sync.WaitGroup{}
 
-	targetUrls := config.StatusPages()
+	targetUrls := config.StatusPageIoPages()
 
 	for _, targetURL := range targetUrls {
 		go fetchStatusPage(wg, log, targetURL, client)
@@ -98,23 +99,8 @@ func fetchStatusPage(wg *sync.WaitGroup, log *zap.Logger, targetURL string, clie
 			result.Page.Name,
 			targetURL,
 			component.Name,
-		).Set(statusToMetricValue(component.Status))
+		).Set(utils.StatusToMetricValue(component.Status))
 	}
 
 	log.Info("Fetched status page", zap.Duration("duration", resp.Time()), zap.String("url", targetURL))
-}
-
-func statusToMetricValue(status string) float64 {
-	switch status {
-	case "operational":
-		return 1
-	case "degraded_performance":
-		return 2 //nolint:gomnd
-	case "partial_outage":
-		return 3 //nolint:gomnd
-	case "major_outage":
-		return 4 //nolint:gomnd
-	default:
-		return 0
-	}
 }

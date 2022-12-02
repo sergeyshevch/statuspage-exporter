@@ -33,7 +33,7 @@ func InitConfig() (*zap.Logger, error) {
 
 	viper.AddConfigPath(home)
 	viper.AddConfigPath(".")
-	viper.SetConfigType("json")
+	viper.SetConfigType("yaml")
 	viper.SetConfigName(".statuspage-exporter")
 
 	viper.AutomaticEnv() // read in environment variables that match
@@ -73,10 +73,19 @@ func ClientTimeout() time.Duration {
 	return value
 }
 
-// StatusPages returns a list of status pages to monitor.
-func StatusPages() []string {
+// StatusPageIoPages returns a list of status pages with statuspage.io engine to monitor.
+func StatusPageIoPages() []string {
 	configMutex.Lock()
-	value := viper.GetStringSlice("statuspages")
+	value := viper.GetStringSlice("statuspageio_pages")
+	configMutex.Unlock()
+
+	return value
+}
+
+// StatusIoPages returns a list of status pages with status.io engine to monitor.
+func StatusIoPages() []string {
+	configMutex.Lock()
+	value := viper.GetStringSlice("statusio_pages")
 	configMutex.Unlock()
 
 	return value

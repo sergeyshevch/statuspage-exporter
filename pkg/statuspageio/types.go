@@ -1,4 +1,4 @@
-package statuspage
+package statuspageio
 
 // AtlassianStatusPageResponse is a response from Atlassian StatusPage API.
 type AtlassianStatusPageResponse struct {

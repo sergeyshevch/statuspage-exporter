@@ -3,6 +3,7 @@ module github.com/sergeyshevch/statuspage-exporter
 go 1.19
 
 require (
+	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/prometheus/client_golang v1.14.0
 	github.com/prometheus/common v0.38.0
@@ -11,6 +12,7 @@ require (
 )
 
 require (
+	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
