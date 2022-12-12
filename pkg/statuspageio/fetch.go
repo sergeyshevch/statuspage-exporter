@@ -1,45 +1,35 @@
 package statuspageio
 
 import (
-	"context"
 	"net/url"
 	"sync"
-	"time"
 
 	"github.com/go-resty/resty/v2"
 	"go.uber.org/zap"
 
-	"github.com/sergeyshevch/statuspage-exporter/pkg/config"
 	"github.com/sergeyshevch/statuspage-exporter/pkg/metrics"
 	"github.com/sergeyshevch/statuspage-exporter/pkg/utils"
 )
 
-// StartFetchingLoop starts a loop that fetches status pages.
-func StartFetchingLoop(ctx context.Context, wg *sync.WaitGroup, log *zap.Logger) {
-	wg.Add(1)
-	defer wg.Done()
-
-	fetchDelay := config.FetchDelay()
-	client := resty.New().EnableTrace().SetTimeout(config.ClientTimeout())
-
-	for {
-		select {
-		default:
-			fetchAllStatusPages(log, client)
-
-			time.Sleep(fetchDelay)
-		case <-ctx.Done():
-			log.Info("Stopping fetching loop")
-
-			return
-		}
+// IsStatusPageIOPage checks if given URL is StatusPage.io page.
+func IsStatusPageIOPage(log *zap.Logger, targetURL string, client *resty.Client) bool {
+	parsedURL, err := constructURL(log, targetURL)
+	if err != nil {
+		return false
 	}
+
+	resp, err := client.R().Head(parsedURL)
+	if err != nil {
+		metrics.ServiceStatusFetchError.WithLabelValues(targetURL).Inc()
+		log.Error("Failed to check if page is StatusPage.io page", zap.String("url", targetURL), zap.Error(err))
+	}
+
+	return resp.IsSuccess()
 }
 
-func fetchAllStatusPages(log *zap.Logger, client *resty.Client) {
+// FetchStatusPages fetch given status pages and export result as metrics.
+func FetchStatusPages(log *zap.Logger, client *resty.Client, targetUrls []string) {
 	wg := &sync.WaitGroup{}
-
-	targetUrls := config.StatusPageIoPages()
 
 	for _, targetURL := range targetUrls {
 		go fetchStatusPage(wg, log, targetURL, client)
@@ -48,12 +38,7 @@ func fetchAllStatusPages(log *zap.Logger, client *resty.Client) {
 	wg.Wait()
 }
 
-func fetchStatusPage(wg *sync.WaitGroup, log *zap.Logger, targetURL string, client *resty.Client) {
-	wg.Add(1)
-	log.Info("Fetching status page", zap.String("url", targetURL))
-
-	defer wg.Done()
-
+func constructURL(log *zap.Logger, targetURL string) (string, error) {
 	parsedURL, err := url.Parse(targetURL)
 	if err != nil {
 		panic(err)
@@ -62,13 +47,28 @@ func fetchStatusPage(wg *sync.WaitGroup, log *zap.Logger, targetURL string, clie
 	parsedURL.Path = "/api/v2/components.json"
 
 	if parsedURL.Host == "" {
-		log.Error("Invalid URL. It won't be parsed. Check that your url contains scheme", zap.String("url", targetURL))
+		log.Error(utils.ErrInvalidURL.Error(), zap.String("url", targetURL))
+
+		return "", utils.ErrInvalidURL
+	}
+
+	return parsedURL.String(), nil
+}
+
+func fetchStatusPage(wg *sync.WaitGroup, log *zap.Logger, targetURL string, client *resty.Client) {
+	wg.Add(1)
+	log.Info("Fetching status page", zap.String("url", targetURL))
+
+	defer wg.Done()
+
+	parsedURL, err := constructURL(log, targetURL)
+	if err != nil {
 		metrics.ServiceStatusFetchError.WithLabelValues(targetURL).Inc()
 
 		return
 	}
 
-	resp, err := client.R().SetResult(&AtlassianStatusPageResponse{}).Get(parsedURL.String()) //nolint:exhaustruct
+	resp, err := client.R().SetResult(&AtlassianStatusPageResponse{}).Get(parsedURL) //nolint:exhaustruct
 	if err != nil {
 		log.Error(
 			"Error fetching status page",

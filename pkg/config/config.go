@@ -12,8 +12,9 @@ import (
 
 const (
 	defaultClientTimeout = 2 * time.Second
-	defaultFetchDelay    = 5 * time.Second
+	defaultFetchDelay    = 15 * time.Second
 	defaultHTTPPort      = 8080
+	defaultRetryCount    = 3
 )
 
 var configMutex = &sync.Mutex{}
@@ -73,19 +74,20 @@ func ClientTimeout() time.Duration {
 	return value
 }
 
-// StatusPageIoPages returns a list of status pages with statuspage.io engine to monitor.
-func StatusPageIoPages() []string {
+// RetryCount returns amount of retries for http client.
+func RetryCount() int {
 	configMutex.Lock()
-	value := viper.GetStringSlice("statuspageio_pages")
+	viper.SetDefault("retry_count", defaultRetryCount)
+	value := viper.GetInt("retry_count")
 	configMutex.Unlock()
 
 	return value
 }
 
-// StatusIoPages returns a list of status pages with status.io engine to monitor.
-func StatusIoPages() []string {
+// StatusPages returns a list of status pages to monitor.
+func StatusPages() []string {
 	configMutex.Lock()
-	value := viper.GetStringSlice("statusio_pages")
+	value := viper.GetStringSlice("statuspages")
 	configMutex.Unlock()
 
 	return value
