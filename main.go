@@ -11,14 +11,17 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/go-resty/resty/v2"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/version"
 	"go.uber.org/zap"
 
 	"github.com/sergeyshevch/statuspage-exporter/pkg/config"
+	"github.com/sergeyshevch/statuspage-exporter/pkg/core"
 	"github.com/sergeyshevch/statuspage-exporter/pkg/metrics"
-	"github.com/sergeyshevch/statuspage-exporter/pkg/statuspage"
+	"github.com/sergeyshevch/statuspage-exporter/pkg/statusio"
+	"github.com/sergeyshevch/statuspage-exporter/pkg/statuspageio"
 )
 
 const (
@@ -74,7 +77,12 @@ func main() {
 	prometheus.MustRegister(metrics.ServiceStatus)
 	prometheus.MustRegister(metrics.ServiceStatusFetchError)
 
-	go statuspage.StartFetchingLoop(ctx, wg, log)
+	restyClient := resty.New().EnableTrace().SetTimeout(config.ClientTimeout()).SetRetryCount(config.RetryCount())
+
+	statusPageIOTargets, statusIOTargets := core.DetectStatusPageType(log, restyClient)
+
+	go core.StartFetchingLoop(ctx, wg, log, restyClient, statusPageIOTargets, statuspageio.FetchStatusPages)
+	go core.StartFetchingLoop(ctx, wg, log, restyClient, statusIOTargets, statusio.FetchStatusPages)
 	go startHTTP(ctx, wg, log)
 
 	quit := make(chan os.Signal, 1)

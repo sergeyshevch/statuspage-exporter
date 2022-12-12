@@ -9,10 +9,21 @@ Statuspage exporter exports metrics from given statuspages as prometheus metrics
 
 ## Supported statuspage engines:
 - Statuspage.io (Widely used statuspage engine. For example by [GitHub](https://www.githubstatus.com)). You can check that statuspage is supported by this engine by checking that it has a [/api/v2/components.json](https://www.githubstatus.com/api/v2/components.json) endpoint.
+- Status.io (Widely used statuspage engine. For example by [Gitlab.com](https://status.gitlab.com). You can check that statuspage is supported by this engine by checking footer of the page. It should contain status.io text)
+
+Statuspage exporter will automatically detect, which engine used by statuspage and will use appropriate parser.
+If this statuspage is not supported by any of the engines, then statuspage exporter will show error message in the logs.
 
 ## Some popular statuspages:
+
+### Statuspage.io Engine
 - [GitHub](https://www.githubstatus.com)
 - [Atlassian (Jira/Confluence/etc)](https://status.atlassian.com/)
+
+### Status.io Engine
+- [Gitlab.com](https://status.gitlab.com/)
+- [Docker](https://status.docker.com/)
+- [Twitter](https://status.twitterstat.us/)
 
 ## Running exporter
 
@@ -66,6 +77,8 @@ client_timeout: 2
 statuspages:
   - https://githubstatus.com
   - https://jira-software.status.atlassian.com
+  - https://status.gitlab.com
+retry_count: 3
 ```
 
 ## Metrics Example

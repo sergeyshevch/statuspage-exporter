@@ -12,8 +12,9 @@ import (
 
 const (
 	defaultClientTimeout = 2 * time.Second
-	defaultFetchDelay    = 5 * time.Second
+	defaultFetchDelay    = 15 * time.Second
 	defaultHTTPPort      = 8080
+	defaultRetryCount    = 3
 )
 
 var configMutex = &sync.Mutex{}
@@ -33,7 +34,7 @@ func InitConfig() (*zap.Logger, error) {
 
 	viper.AddConfigPath(home)
 	viper.AddConfigPath(".")
-	viper.SetConfigType("json")
+	viper.SetConfigType("yaml")
 	viper.SetConfigName(".statuspage-exporter")
 
 	viper.AutomaticEnv() // read in environment variables that match
@@ -68,6 +69,16 @@ func ClientTimeout() time.Duration {
 	configMutex.Lock()
 	viper.SetDefault("client_timeout", defaultClientTimeout)
 	value := viper.GetDuration("client_timeout")
+	configMutex.Unlock()
+
+	return value
+}
+
+// RetryCount returns amount of retries for http client.
+func RetryCount() int {
+	configMutex.Lock()
+	viper.SetDefault("retry_count", defaultRetryCount)
+	value := viper.GetInt("retry_count")
 	configMutex.Unlock()
 
 	return value
