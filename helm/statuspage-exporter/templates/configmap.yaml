@@ -14,3 +14,4 @@ data:
   {{- end }}
   FETCH_DELAY: {{ .Values.fetchDelay | quote }}
   CLIENT_TIMEOUT: {{ .Values.clientTimeout | quote }}
+  RETRY_COUNT: {{ .Values.retryCount | quote }}

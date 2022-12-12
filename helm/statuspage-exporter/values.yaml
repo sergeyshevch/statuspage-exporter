@@ -4,7 +4,8 @@
 replicaCount: 1
 
 httpPort: 8080
-fetchDelay: 5
+fetchDelay: 15
+retryCount: 3
 clientTimeout: 2
 statuspageio_pages: []
 #  - https://www.githubstatus.com
