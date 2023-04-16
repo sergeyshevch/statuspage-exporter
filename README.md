@@ -116,25 +116,70 @@ client_timeout: 2
 retry_count: 3
 ```
 
+## Prometheus configuration
+
+Statuspage exporter implements the multi-target exporter pattern, so we advice
+to read the guide [Understanding and using the multi-target exporter pattern
+](https://prometheus.io/docs/guides/multi-target-exporter/) to get the general
+idea about the configuration.
+
+The statuspage exporter needs to be passed the target as a parameter, this can be
+done with relabelling.
+
+Example config:
+```yml
+scrape_configs:
+  - job_name: 'statuspage'
+    metrics_path: /probe
+    static_configs:
+      - targets:
+        - https://www.githubstatus.com    # Target to probe with http.
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:8080  # The statuspage exporter's real hostname:port.
+```
+
+You also can use Prometheus operator kind:Probe or VictoriaMetrics operator kind:VMProbe Custom resources for same purpose.
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: statuspage-probe
+spec:
+  module: http_2xx
+  targets:
+    staticConfig:
+      static:
+        - 'www.githubstatus.com'
+```
+
 ## Metrics Example
 
 ```
-# HELP service_status Status of a service component, values 0 (operational) to 4 (major_outage)
-# TYPE service_status gauge
-service_status{component="API Requests",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Actions",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Codespaces",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Copilot",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Git Operations",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Issues",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Packages",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Pages",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Pull Requests",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Visit www.githubstatus.com for more information",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
-service_status{component="Webhooks",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
 # HELP service_status_fetch_duration_seconds Returns how long the service status fetch took to complete in seconds
 # TYPE service_status_fetch_duration_seconds gauge
-service_status_fetch_duration_seconds{status_page_url="https://www.githubstatus.com"} 7.0830795
+service_status_fetch_duration_seconds{status_page_url="https://www.githubstatus.com"} 1.078459208
+# HELP statuspage_component Status of a service component. 0 - Unknown, 1 - Operational, 2 - Planned Maintenance, 3 - Degraded Performance, 4 - Partial Outage, 5 - Major Outage, 6 - Security Issue
+# TYPE statuspage_component gauge
+statuspage_component{component="API Requests",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Actions",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Codespaces",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Copilot",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Git Operations",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Issues",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Packages",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Pages",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Pull Requests",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Visit www.githubstatus.com for more information",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+statuspage_component{component="Webhooks",service="GitHub",status_page_url="https://www.githubstatus.com"} 0
+# HELP statuspage_overall Overall status of a service0 - Unknown, 1 - Operational, 2 - Planned Maintenance, 3 - Degraded Performance, 4 - Partial Outage, 5 - Major Outage, 6 - Security Issue
+# TYPE statuspage_overall gauge
+statuspage_overall{service="GitHub",status_page_url="https://www.githubstatus.com"} 0
 ```
 
 ## License Scan

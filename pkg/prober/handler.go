@@ -54,6 +54,7 @@ func Handler(log *zap.Logger) echo.HandlerFunc {
 		componentStatus, overallStatus, serviceStatusDurationGauge := createMetrics()
 		registry := prometheus.NewRegistry()
 		registry.MustRegister(componentStatus)
+		registry.MustRegister(overallStatus)
 		registry.MustRegister(serviceStatusDurationGauge)
 
 		err := engines.FetchStatus(log, targetURL, componentStatus, overallStatus)
