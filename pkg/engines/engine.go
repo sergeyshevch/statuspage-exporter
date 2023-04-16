@@ -14,22 +14,26 @@ import (
 
 var errUnknownStatusPageType = fmt.Errorf("unknown statuspage type")
 
-func FetchStatus(log *zap.Logger, targetUrl string, serviceStatusGauge *prometheus.GaugeVec) error {
-	restyClient := resty.New().EnableTrace().SetTimeout(config.ClientTimeout()).SetRetryCount(config.RetryCount())
+// FetchStatus detect statuspage type and fetch its status.
+func FetchStatus(log *zap.Logger, targetURL string, serviceStatusGauge *prometheus.GaugeVec) error {
+	restyClient := resty.New().
+		EnableTrace().
+		SetTimeout(config.ClientTimeout()).
+		SetRetryCount(config.RetryCount())
 
-	statusPageType := DetectStatusPageType(log, restyClient, targetUrl)
+	statusPageType := DetectStatusPageType(log, restyClient, targetURL)
 	if statusPageType == Unknown {
 		return errUnknownStatusPageType
 	}
 
 	switch statusPageType {
 	case StatusPageIO:
-		return statuspageio.FetchStatusPage(log, targetUrl, restyClient, serviceStatusGauge)
+		return statuspageio.FetchStatusPage(log, targetURL, restyClient, serviceStatusGauge)
 	case StatusIO:
-		return statusio.FetchStatusPage(log, targetUrl, restyClient, serviceStatusGauge)
+		return statusio.FetchStatusPage(log, targetURL, restyClient, serviceStatusGauge)
+	case Unknown:
+		return errUnknownStatusPageType
 	default:
 		return errUnknownStatusPageType
 	}
-
-	return nil
 }
