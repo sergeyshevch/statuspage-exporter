@@ -4,13 +4,8 @@
 replicaCount: 1
 
 httpPort: 8080
-fetchDelay: 15
 retryCount: 3
 clientTimeout: 2
-statuspageio_pages: []
-#  - https://www.githubstatus.com
-statusio_pages: []
-#  - https://status.gitlab.com
 
 image:
   repository: ghcr.io/sergeyshevch/statuspage-exporter
