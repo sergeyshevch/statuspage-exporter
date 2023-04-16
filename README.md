@@ -7,12 +7,14 @@
 
 Statuspage exporter exports metrics from given statuspages as prometheus metrics.
 
+Statuspage exporter is a multi-target exporter. It scrape statuspages using probes. You can read more about it here: [Prometheus Docs](https://prometheus.io/docs/guides/multi-target-exporter/#understanding-and-using-the-multi-target-exporter-pattern)
+
 ## Supported statuspage engines:
 - Statuspage.io (Widely used statuspage engine. For example by [GitHub](https://www.githubstatus.com)). You can check that statuspage is supported by this engine by checking that it has a [/api/v2/components.json](https://www.githubstatus.com/api/v2/components.json) endpoint.
 - Status.io (Widely used statuspage engine. For example by [Gitlab.com](https://status.gitlab.com). You can check that statuspage is supported by this engine by checking footer of the page. It should contain status.io text)
 
 Statuspage exporter will automatically detect, which engine used by statuspage and will use appropriate parser.
-If this statuspage is not supported by any of the engines, then statuspage exporter will show error message in the logs.
+If this statuspage is not supported by any of the engines, then statuspage exporter will return an error.
 
 ## Some popular statuspages:
 
@@ -27,7 +29,10 @@ If this statuspage is not supported by any of the engines, then statuspage expor
 
 ## Running exporter
 
-You can run the exporter with docker, kubernetes, or just as a binary.
+You can run the exporter with docker, kubernetes, or just as a binary. After running you can get results by http:
+```bash
+curl http://localhost:8080/probe?target=https://www.githubstatus.com
+```
 
 ### Docker
 Docker images available in Github Registry/DockerHub in all arch (amd64, arm64, arm/v7) for linux. Please be careful with DockerHun pull limits.
@@ -69,15 +74,9 @@ You can read defaults from [config.go](/pkg/config/config.go)
 ### Configuration file example
 ```yaml
 http_port: 8080
-# Delay between requests to the statuspages
-fetch_delay: 5
 # Timeout for the http client
 client_timeout: 2
-# List of the targets to scrape
-statuspages:
-  - https://githubstatus.com
-  - https://jira-software.status.atlassian.com
-  - https://status.gitlab.com
+# Count of retries for the http client
 retry_count: 3
 ```
 
@@ -85,20 +84,20 @@ retry_count: 3
 ```
 # HELP service_status Status of a service component, values 0 (operational) to 4 (major_outage)
 # TYPE service_status gauge
-service_status{component="API Requests",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Actions",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Codespaces",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Copilot",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Git Operations",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Issues",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Packages",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Pages",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Pull Requests",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Visit www.githubstatus.com for more information",service="GitHub",status_page_url="https://status.github.com"} 1
-service_status{component="Webhooks",service="GitHub",status_page_url="https://status.github.com"} 1
-# HELP statuspage_exporter_build_info A metric with a constant '1' value labeled by version, revision, branch, and goversion from which statuspage_exporter was built.
-# TYPE statuspage_exporter_build_info gauge
-statuspage_exporter_build_info{branch="",goversion="go1.19.2",revision="",version=""} 1
+service_status{component="API Requests",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Actions",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Codespaces",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Copilot",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Git Operations",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Issues",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Packages",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Pages",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Pull Requests",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Visit www.githubstatus.com for more information",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+service_status{component="Webhooks",service="GitHub",status_page_url="https://www.githubstatus.com"} 1
+# HELP service_status_fetch_duration_seconds Returns how long the service status fetch took to complete in seconds
+# TYPE service_status_fetch_duration_seconds gauge
+service_status_fetch_duration_seconds{status_page_url="https://www.githubstatus.com"} 7.0830795
 ```
 
 ## License Scan
