@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 
-httpPort: 8080
+httpPort: 9747
 retryCount: 3
 clientTimeout: 2
 

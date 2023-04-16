@@ -59,7 +59,7 @@ Special cases:
 You can run the exporter with docker, kubernetes, or just as a binary. After running you can get results by http:
 
 ```bash
-curl http://localhost:8080/probe?target=https://www.githubstatus.com
+curl http://localhost:9747/probe?target=https://www.githubstatus.com
 ```
 
 ### Docker
@@ -73,7 +73,7 @@ with DockerHun pull limits.
 | DockerHub       | [sergeykons/statuspage-exporter](https://hub.docker.com/r/sergeykons/statuspage-exporter)                                          |
 
 ```bash
-docker run -p 8080:8080 ghcr.io/sergeyshevch/statuspage-exporter --statuspages=https://www.githubstatus.com, https://https://jira-software.status.atlassian.com
+docker run -p 9747:9747 ghcr.io/sergeyshevch/statuspage-exporter --statuspages=https://www.githubstatus.com, https://https://jira-software.status.atlassian.com
 ```
 
 ### Helm
@@ -109,7 +109,7 @@ You can read defaults from [config.go](/pkg/config/config.go)
 ### Configuration file example
 
 ```yaml
-http_port: 8080
+http_port: 9747
 # Timeout for the http client
 client_timeout: 2
 # Count of retries for the http client
@@ -140,7 +140,7 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 127.0.0.1:8080  # The statuspage exporter's real hostname:port.
+        replacement: 127.0.0.1:9747  # The statuspage exporter's real hostname:port.
 ```
 
 You also can use Prometheus operator kind:Probe or VictoriaMetrics operator kind:VMProbe Custom resources for same purpose.
