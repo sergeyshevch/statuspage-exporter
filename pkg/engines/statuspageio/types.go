@@ -11,4 +11,7 @@ type AtlassianStatusPageResponse struct {
 		Description string `json:"description"`
 		Status      string `json:"status"`
 	} `json:"components"`
+	Status struct {
+		Indicator string `json:"indicator"`
+	}
 }

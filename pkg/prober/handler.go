@@ -12,6 +12,36 @@ import (
 	"github.com/sergeyshevch/statuspage-exporter/pkg/engines"
 )
 
+func createMetrics() (*prometheus.GaugeVec, *prometheus.GaugeVec, *prometheus.GaugeVec) {
+	componentStatus := prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{ //nolint:exhaustruct
+			Name: "statuspage_component",
+			Help: "Status of a service component. " +
+				"0 - Unknown, 1 - Operational, 2 - Planned Maintenance, " +
+				"3 - Degraded Performance, 4 - Partial Outage, 5 - Major Outage, 6 - Security Issue",
+		},
+		[]string{"service", "status_page_url", "component"},
+	)
+	overallStatus := prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{ //nolint:exhaustruct
+			Name: "statuspage_overall",
+			Help: "Overall status of a service" +
+				"0 - Unknown, 1 - Operational, 2 - Planned Maintenance, " +
+				"3 - Degraded Performance, 4 - Partial Outage, 5 - Major Outage, 6 - Security Issue",
+		},
+		[]string{"service", "status_page_url"},
+	)
+	serviceStatusDurationGauge := prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{ //nolint:exhaustruct
+			Name: "service_status_fetch_duration_seconds",
+			Help: "Returns how long the service status fetch took to complete in seconds",
+		},
+		[]string{"status_page_url"},
+	)
+
+	return componentStatus, overallStatus, serviceStatusDurationGauge
+}
+
 // Handler returns a http handler for /probe endpoint.
 func Handler(log *zap.Logger) echo.HandlerFunc {
 	return func(ctx echo.Context) error {
@@ -21,28 +51,12 @@ func Handler(log *zap.Logger) echo.HandlerFunc {
 		}
 
 		start := time.Now()
-
-		serviceStatus := prometheus.NewGaugeVec(
-			prometheus.GaugeOpts{ //nolint:exhaustruct
-				Name: "service_status",
-				Help: "Status of a service component, values 0 (operational) to 4 (major_outage)",
-			},
-			[]string{"service", "status_page_url", "component"},
-		)
-
-		serviceStatusDurationGauge := prometheus.NewGaugeVec(
-			prometheus.GaugeOpts{ //nolint:exhaustruct
-				Name: "service_status_fetch_duration_seconds",
-				Help: "Returns how long the service status fetch took to complete in seconds",
-			},
-			[]string{"status_page_url"},
-		)
-
+		componentStatus, overallStatus, serviceStatusDurationGauge := createMetrics()
 		registry := prometheus.NewRegistry()
-		registry.MustRegister(serviceStatus)
+		registry.MustRegister(componentStatus)
 		registry.MustRegister(serviceStatusDurationGauge)
 
-		err := engines.FetchStatus(log, targetURL, serviceStatus)
+		err := engines.FetchStatus(log, targetURL, componentStatus, overallStatus)
 		if err != nil {
 			return ctx.String(http.StatusInternalServerError, err.Error())
 		}

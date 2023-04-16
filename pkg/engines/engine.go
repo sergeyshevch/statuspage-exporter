@@ -10,28 +10,40 @@ import (
 	"github.com/sergeyshevch/statuspage-exporter/pkg/config"
 	"github.com/sergeyshevch/statuspage-exporter/pkg/engines/statusio"
 	"github.com/sergeyshevch/statuspage-exporter/pkg/engines/statuspageio"
+	"github.com/sergeyshevch/statuspage-exporter/pkg/engines/types"
 )
 
 var errUnknownStatusPageType = fmt.Errorf("unknown statuspage type")
 
 // FetchStatus detect statuspage type and fetch its status.
-func FetchStatus(log *zap.Logger, targetURL string, serviceStatusGauge *prometheus.GaugeVec) error {
+func FetchStatus(
+	log *zap.Logger,
+	targetURL string,
+	componentStatus *prometheus.GaugeVec,
+	overallStatus *prometheus.GaugeVec,
+) error {
 	restyClient := resty.New().
 		EnableTrace().
 		SetTimeout(config.ClientTimeout()).
 		SetRetryCount(config.RetryCount())
 
 	statusPageType := DetectStatusPageType(log, restyClient, targetURL)
-	if statusPageType == Unknown {
+	if statusPageType == types.UnknownType {
 		return errUnknownStatusPageType
 	}
 
 	switch statusPageType {
-	case StatusPageIO:
-		return statuspageio.FetchStatusPage(log, targetURL, restyClient, serviceStatusGauge)
-	case StatusIO:
-		return statusio.FetchStatusPage(log, targetURL, restyClient, serviceStatusGauge)
-	case Unknown:
+	case types.StatusPageIOType:
+		return statuspageio.FetchStatusPage(
+			log,
+			targetURL,
+			restyClient,
+			componentStatus,
+			overallStatus,
+		)
+	case types.StatusIOType:
+		return statusio.FetchStatusPage(log, targetURL, restyClient, componentStatus, overallStatus)
+	case types.UnknownType:
 		return errUnknownStatusPageType
 	default:
 		return errUnknownStatusPageType

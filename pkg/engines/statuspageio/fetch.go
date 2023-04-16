@@ -51,7 +51,8 @@ func FetchStatusPage(
 	log *zap.Logger,
 	targetURL string,
 	client *resty.Client,
-	serviceStatusGauge *prometheus.GaugeVec,
+	componentStatus *prometheus.GaugeVec,
+	overallStatus *prometheus.GaugeVec,
 ) error {
 	log.Info("Fetching status page", zap.String("url", targetURL))
 
@@ -87,12 +88,17 @@ func FetchStatusPage(
 	}
 
 	for _, component := range result.Components {
-		serviceStatusGauge.WithLabelValues(
+		componentStatus.WithLabelValues(
 			result.Page.Name,
 			targetURL,
 			component.Name,
-		).Set(utils.StatusToMetricValue(component.Status))
+		).Set(float64(IndicatorToMetricValue(component.Status)))
 	}
+
+	overallStatus.WithLabelValues(
+		result.Page.Name,
+		targetURL,
+	).Set(float64(IndicatorToMetricValue(result.Status.Indicator)))
 
 	log.Info(
 		"Fetched status page",

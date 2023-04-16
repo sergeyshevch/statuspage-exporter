@@ -6,12 +6,17 @@ import (
 
 	"github.com/sergeyshevch/statuspage-exporter/pkg/engines/statusio"
 	"github.com/sergeyshevch/statuspage-exporter/pkg/engines/statuspageio"
+	"github.com/sergeyshevch/statuspage-exporter/pkg/engines/types"
 )
 
-var statusPageTypesBuffer = map[string]EngineType{}
+var statusPageTypesBuffer = map[string]types.EngineType{}
 
 // DetectStatusPageType detects statuspage engine for given statuspage URLs.
-func DetectStatusPageType(log *zap.Logger, restyClient *resty.Client, targetURL string) EngineType {
+func DetectStatusPageType(
+	log *zap.Logger,
+	restyClient *resty.Client,
+	targetURL string,
+) types.EngineType {
 	if engine, ok := statusPageTypesBuffer[targetURL]; ok {
 		return engine
 	}
@@ -19,16 +24,16 @@ func DetectStatusPageType(log *zap.Logger, restyClient *resty.Client, targetURL 
 	if statuspageio.IsStatusPageIOPage(log, targetURL, restyClient) {
 		log.Info("Detected StatusPage.io page", zap.String("url", targetURL))
 
-		statusPageTypesBuffer[targetURL] = StatusPageIO
+		statusPageTypesBuffer[targetURL] = types.StatusPageIOType
 
-		return StatusPageIO
+		return types.StatusPageIOType
 	} else if statusio.IsStatusIOPage(log, targetURL, restyClient) {
 		log.Info("Detected Status.io page", zap.String("url", targetURL))
 
-		statusPageTypesBuffer[targetURL] = StatusIO
+		statusPageTypesBuffer[targetURL] = types.StatusIOType
 
-		return StatusIO
+		return types.StatusIOType
 	}
 
-	return Unknown
+	return types.UnknownType
 }

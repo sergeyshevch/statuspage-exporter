@@ -51,11 +51,12 @@ func constructURL(log *zap.Logger, targetURL string) (string, error) {
 }
 
 // FetchStatusPage fetches status page and updates service status gauge.
-func FetchStatusPage(
+func FetchStatusPage( //nolint:funlen
 	log *zap.Logger,
 	targetURL string,
 	client *resty.Client,
-	serviceStatusGauge *prometheus.GaugeVec,
+	componentStatus *prometheus.GaugeVec,
+	overallStatus *prometheus.GaugeVec,
 ) error {
 	log.Info("Fetching status page", zap.String("url", targetURL))
 
@@ -96,14 +97,18 @@ func FetchStatusPage(
 
 	doc.Find(".component").Each(func(_ int, s *goquery.Selection) {
 		componentName := s.Find(".component_name").First().Text()
-		componentStatus := s.Find(".component-status").First().Text()
+		componentStatusText := s.Find(".component-status").First().Text()
 
-		serviceStatusGauge.WithLabelValues(
+		componentStatus.WithLabelValues(
 			title,
 			targetURL,
 			strings.Trim(componentName, " "),
-		).Set(utils.StatusToMetricValue(componentStatus))
+		).Set(float64(StatusToMetricValue(componentStatusText)))
 	})
+
+	overallText := doc.Find("#statusbar_text").First().Text()
+	overallStatus.WithLabelValues(title, targetURL).
+		Set(float64(PageDescriptionToMetricValue(overallText)))
 
 	log.Info(
 		"Fetched status page",
