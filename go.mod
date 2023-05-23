@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/go-resty/resty/v2 v2.7.0
-	github.com/labstack/echo-contrib v0.14.1
+	github.com/labstack/echo-contrib v0.15.0
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/prometheus/client_golang v1.15.1
 	github.com/prometheus/common v0.44.0
