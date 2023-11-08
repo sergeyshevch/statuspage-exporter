@@ -2,6 +2,7 @@ package engines
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/go-resty/resty/v2"
 	"github.com/prometheus/client_golang/prometheus"
@@ -24,11 +25,12 @@ func FetchStatus(
 ) error {
 	restyClient := resty.New().
 		EnableTrace().
-		SetTimeout(config.ClientTimeout()).
+		SetTimeout(config.ClientTimeout() * time.Second).
 		SetRetryCount(config.RetryCount())
 
 	statusPageType := DetectStatusPageType(log, restyClient, targetURL)
 	if statusPageType == types.UnknownType {
+		print(config.ClientTimeout())
 		return errUnknownStatusPageType
 	}
 
