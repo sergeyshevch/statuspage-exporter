@@ -92,7 +92,7 @@ func FetchStatusPage(
 			result.Page.Name,
 			targetURL,
 			component.Name,
-		).Set(float64(IndicatorToMetricValue(component.Status)))
+		).Set(float64(StatusToMetricValue(component.Status)))
 	}
 
 	overallStatus.WithLabelValues(
