@@ -30,7 +30,6 @@ func FetchStatus(
 
 	statusPageType := DetectStatusPageType(log, restyClient, targetURL)
 	if statusPageType == types.UnknownType {
-		print(config.ClientTimeout())
 		return errUnknownStatusPageType
 	}
 
