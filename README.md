@@ -110,7 +110,7 @@ You can read defaults from [config.go](/pkg/config/config.go)
 
 ```yaml
 http_port: 9747
-# Timeout for the http client
+# Timeout for the http client in seconds
 client_timeout: 2
 # Count of retries for the http client
 retry_count: 3
