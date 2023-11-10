@@ -5,6 +5,7 @@ replicaCount: 1
 
 httpPort: 9747
 retryCount: 3
+# Client timeout in seconds when getting data from statuspages
 clientTimeout: 2
 
 image:
